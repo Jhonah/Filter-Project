@@ -1,34 +1,44 @@
-//const body = document.querySelector('body');
+const buttons = document.querySelectorAll('.filter-btn');
 const store = document.querySelector('#store');
+
+/* отменяет возврат на начало страницы, при переходе по ссылке */
 store.addEventListener('click', (event) => {
     event.preventDefault();
 })
-//const filterBtn = document.querySelector('#filter-btn');
-//console.log(filterBtn.dataset.filter);
 
-const buttons = document.querySelectorAll('.filter-btn');
+// let count = 0;
 
-buttons.forEach( (button) => {
+buttons.forEach((button) => {
+
+    const storeItems = document.querySelectorAll('.store-item');
+    //let allCandy = button.dataset.filter;
+
     button.addEventListener('click', () => {
-        const storeItems = document.querySelectorAll('.store-item');
-        if (button.dataset.filter === "all") {
-            //console.log(button.dataset.filter);
+        /* запоминаем единственный селектор */
+        const wordCandy = button.dataset.filter;
 
-            storeItems.forEach((storeItem) => {
-                storeItem.style.display = "block";
+        /* при нажатие сортируются item-ы */
+        if (wordCandy === "all") {
+            storeItems.forEach((item) => {
+                item.style.display = "block";
             })
-        } else if (button.dataset.filter == "cakes") {
-
-            storeItems.forEach((storeItem) => {
-                if (storeItem.classList.contains("cakes")) {
-                    storeItem.style.display = "block";
-                } else {
-                    storeItem.style.display = "none";
-                }
-            })
+        } else {
+            onDisplayVisible(storeItems, wordCandy);
         }
-
-        //if (button.classList.contains('filter-btn').dataset.filter.contains('all')) {
-        //}
     })
 })
+
+/**
+ * 
+ * @param {any} items массив селекторов, где есть
+ * @param {any} showIt нужный ключевой Вам селектор
+ */
+function onDisplayVisible(items, showIt) {
+    items.forEach((item) => {
+        if (item.classList.contains(showIt)) {
+            item.style.display = "block";
+        } else {
+            item.style.display = "none";
+        }
+    })
+}
