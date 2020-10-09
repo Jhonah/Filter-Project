@@ -6,111 +6,45 @@ store.addEventListener('click', (event) => {
     event.preventDefault();
 })
 
-/* поиск сладостей по вводу в поиск */
-const search = document.querySelector('#search-item');
-
 /* сделать что-то регулярное - каждую секунду 1000ms */
 let timeId = setTimeout(function tick() {
-    //console.log(search.value);
+    /* some code */
     /* повторный запуск */
     timeId = setTimeout(tick, 1000); /* (*) */
 }, 1000);
 
-/* search by letter with equal the main word */
-function findSimilarWords(byTarget, fromAnArray) {
-    //const length = value.length - 1;
-    let count = 0;
-    let arrayWords = [];
-    const storeItems = document.querySelectorAll('.store-item');
-    storeItems.forEach((onePosFromArray) => {
-        let word = onePosFromArray.dataset.item;
-        //let byTarget = value;
-        let pos = 0;
-        
-        let foundPos = word.indexOf(byTarget, pos);
-        //console.log(`${str} -> ${foundPos}`);
-        if (word.indexOf(byTarget) !== -1) {
-            //console.log(word);
-            /* count количество найденных слов */
-            count++;
-            //sortByWord(word);
-            //console.log(count);
-            arrayWords.push(word);
-            onePosFromArray.style.display = "block";
-        } else {
-            onePosFromArray.style.display = "none";
-        }
-        /*if (candy === value) {
-            console.log(`выбор -> ${button.dataset.filter}`);
-            word(button.dataset.filter);
-        }*/
-        //console.log(`filter ${candy}, sreach-item ${value}`);
-    })
-
-    //console.log(arrayWords.length);
-    if ( arrayWords.length > 0 ) {
-        const storeItems = document.querySelectorAll('.store-item');
-        //sortByWord(arrayWords);
-
-        //sortByArrayWords(storeItems, arrayWords);
-    }
-}
-
-/* сравнить пару слов */
-function equal(input, word) {
-    const length = input.length - 1;
-    if (input === word[length]) {
-        //equal()
-    }
-}
-
-/* вернуть буквы которые были введены в поиск */
-function returnLetter(letter, length) {
-    if (length >= 0)
-        return letter[0] + returnLetter(letter, length - 1);
-    else
-        return '';
-}
-
-/* нажатие кнопки */
+/* поиск сладостей по вводу в поиск */
 document.addEventListener('keyup', () => {
-    findSimilarWords(search.value, buttons);
-    //console.log(returnLetter('cake', 2));
-    /*buttons.forEach((button) => {
-        equal(search.value, button.dataset.filter);
-    })*/
+    const storeItems = document.querySelectorAll('.store-item');
+    const inputValue = document.querySelector('#search-item').value;
+    
+    findOfWordFrom(storeItems, inputValue);
 })
+
+function findOfWordFrom(array, byTarget) {
+    array.forEach((item) => {
+        let string = item.dataset.item;
+        if (string.indexOf(byTarget) !== -1) {
+            item.style.display = "block";
+        } else {
+            item.style.display = "none";
+        }
+    })
+}
 
 /* сортировка сладостей по кнопки выбора store */
 buttons.forEach((button) => {
-
-
-    //let allCandy = button.dataset.filter;
-
     button.addEventListener('click', () => {
         /* запоминаем единственный селектор */
         const word = button.dataset.filter;
-        sortByWord(word);
-        /* при нажатие сортируются item-ы */
-        /*if (wordCandy === "all") {
-            storeItems.forEach((item) => {
-                item.style.display = "block";
-            })
-        } else {
-            onDisplayVisible(storeItems, wordCandy);
-        }*/
+        sortByOne(word);
     })
 })
 
-function sortByWord(value) {
-    /* запоминаем единственный селектор */
-    //const wordCandy = button.dataset.filter;
-
+function sortByOne(value) {
+    /* запоминаем все карточки, которые либо появяться либо исчезнут */
     const storeItems = document.querySelectorAll('.store-item');
-    /*if (Array.isArray(value)) {
-        console.log("is array");
-    }*/
-    /* при нажатие сортируются item-ы */
+    /* показываем все или только определенный item */
     if (value === "all") {
         storeItems.forEach((item) => {
             item.style.display = "block";
@@ -118,28 +52,6 @@ function sortByWord(value) {
     } else {
         onDisplayVisible(storeItems, value);
     }
-}
-
-/* не подходит для высоконагруженных сайтов,
- * если делать переборку 5000 * 5000
- * получим 25 миллионов цикла из за чего
- * повиснет сервер или сайт у пользователя */
-function sortByArrayWords(items, showIt) {
-    let array = []
-    showIt.forEach((show) => {
-        items.forEach((item) => {
-            const filterBtn = item.classList.contains(show);
-            if (filterBtn) {
-                //item.style.display = "block";
-                array.push(item)
-            } else {
-                item.style.display = "none";
-            }
-        })
-    })
-    array.forEach((item) => {
-        item.style.display = "block";
-    })
 }
 
 /**
