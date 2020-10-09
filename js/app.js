@@ -21,22 +21,24 @@ function findSimilarWords(byTarget, fromAnArray) {
     //const length = value.length - 1;
     let count = 0;
     let arrayWords = [];
-
-    fromAnArray.forEach((onePosFromArray) => {
-        let word = onePosFromArray.dataset.filter;
+    const storeItems = document.querySelectorAll('.store-item');
+    storeItems.forEach((onePosFromArray) => {
+        let word = onePosFromArray.dataset.item;
         //let byTarget = value;
         let pos = 0;
         
         let foundPos = word.indexOf(byTarget, pos);
         //console.log(`${str} -> ${foundPos}`);
-        if ( word.indexOf(byTarget) !== -1 ) {
+        if (word.indexOf(byTarget) !== -1) {
             //console.log(word);
             /* count количество найденных слов */
             count++;
             //sortByWord(word);
             //console.log(count);
             arrayWords.push(word);
-            //item.style.display = "block";
+            onePosFromArray.style.display = "block";
+        } else {
+            onePosFromArray.style.display = "none";
         }
         /*if (candy === value) {
             console.log(`выбор -> ${button.dataset.filter}`);
@@ -50,7 +52,7 @@ function findSimilarWords(byTarget, fromAnArray) {
         const storeItems = document.querySelectorAll('.store-item');
         //sortByWord(arrayWords);
 
-        sortByArrayWords(storeItems, arrayWords);
+        //sortByArrayWords(storeItems, arrayWords);
     }
 }
 
