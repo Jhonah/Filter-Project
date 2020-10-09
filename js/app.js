@@ -16,8 +16,9 @@ let timeId = setTimeout(function tick() {
 /* поиск сладостей по вводу в поиск */
 document.addEventListener('keyup', () => {
     const storeItems = document.querySelectorAll('.store-item');
-    const inputValue = document.querySelector('#search-item').value;
-    
+    const searchBox = document.querySelector('#search-item');
+    const inputValue = searchBox.value.toLowerCase();
+
     findOfWordFrom(storeItems, inputValue);
 })
 
