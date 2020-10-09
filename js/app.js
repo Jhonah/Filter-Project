@@ -36,6 +36,7 @@ function findSimilarWords(byTarget, fromAnArray) {
             //sortByWord(word);
             //console.log(count);
             arrayWords.push(word);
+            //item.style.display = "block";
         }
         /*if (candy === value) {
             console.log(`выбор -> ${button.dataset.filter}`);
@@ -46,7 +47,10 @@ function findSimilarWords(byTarget, fromAnArray) {
 
     //console.log(arrayWords.length);
     if ( arrayWords.length > 0 ) {
-        sortByWord(arrayWords);
+        const storeItems = document.querySelectorAll('.store-item');
+        //sortByWord(arrayWords);
+
+        sortByArrayWords(storeItems, arrayWords);
     }
 }
 
@@ -99,6 +103,7 @@ buttons.forEach((button) => {
 function sortByWord(value) {
     /* запоминаем единственный селектор */
     //const wordCandy = button.dataset.filter;
+
     const storeItems = document.querySelectorAll('.store-item');
     /*if (Array.isArray(value)) {
         console.log("is array");
@@ -111,6 +116,28 @@ function sortByWord(value) {
     } else {
         onDisplayVisible(storeItems, value);
     }
+}
+
+/* не подходит для высоконагруженных сайтов,
+ * если делать переборку 5000 * 5000
+ * получим 25 миллионов цикла из за чего
+ * повиснет сервер или сайт у пользователя */
+function sortByArrayWords(items, showIt) {
+    let array = []
+    showIt.forEach((show) => {
+        items.forEach((item) => {
+            const filterBtn = item.classList.contains(show);
+            if (filterBtn) {
+                //item.style.display = "block";
+                array.push(item)
+            } else {
+                item.style.display = "none";
+            }
+        })
+    })
+    array.forEach((item) => {
+        item.style.display = "block";
+    })
 }
 
 /**
