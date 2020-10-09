@@ -9,31 +9,45 @@ store.addEventListener('click', (event) => {
 /* поиск сладостей по вводу в поиск */
 const search = document.querySelector('#search-item');
 
+/* сделать что-то регулярное - каждую секунду 1000ms */
 let timeId = setTimeout(function tick() {
     //console.log(search.value);
     /* повторный запуск */
     timeId = setTimeout(tick, 1000); /* (*) */
 }, 1000);
 
-
-function word(value) {
+/* search by letter with equal the main word */
+function findSimilarWords(byTarget, fromAnArray) {
     //const length = value.length - 1;
-    //const index = 0;
+    let count = 0;
+    let arrayWords = [];
 
-    buttons.forEach((button) => {
-        let str = button.dataset.filter;
-        let target = value;
+    fromAnArray.forEach((onePosFromArray) => {
+        let word = onePosFromArray.dataset.filter;
+        //let byTarget = value;
         let pos = 0;
         
-        let foundPos = str.indexOf(target, pos);
-        console.log(`${str} -> ${foundPos}`);
-
+        let foundPos = word.indexOf(byTarget, pos);
+        //console.log(`${str} -> ${foundPos}`);
+        if ( word.indexOf(byTarget) !== -1 ) {
+            //console.log(word);
+            /* count количество найденных слов */
+            count++;
+            //sortByWord(word);
+            //console.log(count);
+            arrayWords.push(word);
+        }
         /*if (candy === value) {
             console.log(`выбор -> ${button.dataset.filter}`);
             word(button.dataset.filter);
         }*/
         //console.log(`filter ${candy}, sreach-item ${value}`);
     })
+
+    //console.log(arrayWords.length);
+    if ( arrayWords.length > 0 ) {
+        sortByWord(arrayWords);
+    }
 }
 
 /* сравнить пару слов */
@@ -54,7 +68,7 @@ function returnLetter(letter, length) {
 
 /* нажатие кнопки */
 document.addEventListener('keyup', () => {
-    word(search.value);
+    findSimilarWords(search.value, buttons);
     //console.log(returnLetter('cake', 2));
     /*buttons.forEach((button) => {
         equal(search.value, button.dataset.filter);
@@ -65,23 +79,39 @@ document.addEventListener('keyup', () => {
 buttons.forEach((button) => {
 
 
-    const storeItems = document.querySelectorAll('.store-item');
     //let allCandy = button.dataset.filter;
 
     button.addEventListener('click', () => {
         /* запоминаем единственный селектор */
-        const wordCandy = button.dataset.filter;
-
+        const word = button.dataset.filter;
+        sortByWord(word);
         /* при нажатие сортируются item-ы */
-        if (wordCandy === "all") {
+        /*if (wordCandy === "all") {
             storeItems.forEach((item) => {
                 item.style.display = "block";
             })
         } else {
             onDisplayVisible(storeItems, wordCandy);
-        }
+        }*/
     })
 })
+
+function sortByWord(value) {
+    /* запоминаем единственный селектор */
+    //const wordCandy = button.dataset.filter;
+    const storeItems = document.querySelectorAll('.store-item');
+    /*if (Array.isArray(value)) {
+        console.log("is array");
+    }*/
+    /* при нажатие сортируются item-ы */
+    if (value === "all") {
+        storeItems.forEach((item) => {
+            item.style.display = "block";
+        })
+    } else {
+        onDisplayVisible(storeItems, value);
+    }
+}
 
 /**
  * 
